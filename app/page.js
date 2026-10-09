@@ -1,5 +1,7 @@
+import Link from "next/link";
+
 const tools = [
-  { title: "Trim Video", description: "Cut a video down to the part you need." },
+  { title: "Trim Video", description: "Cut a video down to the part you need.", href: "/trim-video" },
   { title: "Instagram Video Downloader", description: "Save Instagram videos from a link." },
   { title: "Image Conversion", description: "Convert images between PNG, JPG and WebP." },
 ];
@@ -9,12 +11,23 @@ export default function Home() {
     <main>
       <h1>Hello, World</h1>
       <div className="cards">
-        {tools.map((tool) => (
-          <div key={tool.title} className="card">
-            <h2>{tool.title}</h2>
-            <p>{tool.description}</p>
-          </div>
-        ))}
+        {tools.map((tool) => {
+          const content = (
+            <>
+              <h2>{tool.title}</h2>
+              <p>{tool.description}</p>
+            </>
+          );
+          return tool.href ? (
+            <Link key={tool.title} href={tool.href} className="card">
+              {content}
+            </Link>
+          ) : (
+            <div key={tool.title} className="card">
+              {content}
+            </div>
+          );
+        })}
       </div>
     </main>
   );
