@@ -8,6 +8,11 @@ const tools = [
     href: "/instagram-downloader",
   },
   { title: "Image Conversion", description: "Convert images between PNG, JPG and WebP." },
+  {
+    title: "Instagram Account Videos",
+    description: "List every video from an Instagram account, with captions.",
+    href: "/instagram-account-videos",
+  },
 ];
 
 export default function Home() {

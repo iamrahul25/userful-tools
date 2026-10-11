@@ -1,24 +1,13 @@
-const USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36";
-const IG_APP_ID = "936619743392459";
+import {
+  IG_APP_ID,
+  LookupError,
+  MEDIA_CAROUSEL,
+  MEDIA_VIDEO,
+  errorResponse,
+  instagramFetch,
+} from "./instagram";
+
 const POST_QUERY_DOC_ID = "27128499623469141";
-const MEDIA_VIDEO = 2;
-const MEDIA_CAROUSEL = 8;
-
-class LookupError extends Error {
-  constructor(message, status) {
-    super(message);
-    this.status = status;
-  }
-}
-
-function instagramFetch(url, headers = {}) {
-  return fetch(url, {
-    headers: { "User-Agent": USER_AGENT, ...headers },
-    cache: "no-store",
-    signal: AbortSignal.timeout(15000),
-  });
-}
 
 async function resolveShortcode(input) {
   const text = input.trim();
@@ -62,11 +51,13 @@ async function fetchPost(shortcode) {
     }),
   });
   const response = await instagramFetch(`https://www.instagram.com/graphql/query/?${params}`, {
-    Accept: "*/*",
-    Cookie: `csrftoken=${csrfToken}`,
-    "X-CSRFToken": csrfToken,
-    "X-IG-App-ID": IG_APP_ID,
-    Referer: `https://www.instagram.com/p/${shortcode}/`,
+    headers: {
+      Accept: "*/*",
+      Cookie: `csrftoken=${csrfToken}`,
+      "X-CSRFToken": csrfToken,
+      "X-IG-App-ID": IG_APP_ID,
+      Referer: `https://www.instagram.com/p/${shortcode}/`,
+    },
   });
 
   if (response.status === 429) {
@@ -120,9 +111,6 @@ export async function GET(request) {
       videos,
     });
   } catch (error) {
-    if (error instanceof LookupError) {
-      return Response.json({ error: error.message }, { status: error.status });
-    }
-    return Response.json({ error: "Couldn't reach Instagram. Please try again." }, { status: 502 });
+    return errorResponse(error);
   }
 }

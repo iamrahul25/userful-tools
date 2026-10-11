@@ -113,6 +113,7 @@
   padding: 0.8rem 1rem;
   color: #b91c1c;
   font-size: 0.9rem;
+  overflow-wrap: anywhere;
   background: #fef2f2;
   border: 1px solid #fecaca;
   border-radius: 8px;
