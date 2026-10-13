@@ -9,6 +9,11 @@ const tools = [
   },
   { title: "Image Conversion", description: "Convert images between PNG, JPG and WebP." },
   {
+    title: "Split Image",
+    description: "Cut an image into an equal grid and download every piece.",
+    href: "/split-image",
+  },
+  {
     title: "Instagram Account Videos",
     description: "List every video from an Instagram account, with captions.",
     href: "/instagram-account-videos",
